@@ -2,7 +2,11 @@
 
 ## US en cours
 
+<<<<<<< HEAD
 USA1
+=======
+US1
+>>>>>>> pointbar-master
 
 ## Serveurs
 Prod : http://www.multibao.org
