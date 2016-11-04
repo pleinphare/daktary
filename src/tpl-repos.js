@@ -1,7 +1,7 @@
 {
   const htmlRepo = ({url, title, folders, files, contributors, git_url, image_url, description, readme_url}) =>
     `<article class="gh-list-item gh-type-repo">
-      <img src="${image_url}">
+      ${ image_url ? `<img src="${image_url}">` : '' }
       <h2 class="gh-list-title"><a href="#${url}">${title}</a></h2>
       <div class="gh-list-content">
         <div class="gh-list-meta">
