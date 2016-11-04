@@ -24,6 +24,11 @@
   display: table-cell;
 }
 
+.gh-list-item img {
+  margin-bottom: 15px;
+  margin-left: 30px;
+}
+
 .gh-list-content {
   margin-left: 30px;
 }

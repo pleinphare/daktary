@@ -1,22 +1,17 @@
 {
-  const htmlWithMetas = ({url, title, authors, prose_url, git_url, image_url, description}) =>
+  const htmlSearch = ({url, title, authors, prose_url, git_url, image_url, description}) =>
     `<article class="gh-list-item gh-type-file">
        <h2 class="gh-list-title"><a href="#${url}">${title}</a></h2>
        <div class="gh-list-content">
          <div class="gh-list-meta">
-           <p>Créé par : ${authors}</p>
+           ${ authors ? `<p>Créé par : ${authors}</p>` : '' }
          </div>
-         <img src="${image_url}">
-         <p class="gh-list-excerpt">${description}</p>
+         ${ image_url ? `<img src="${image_url}">` : '' }
+         ${ description ? ` <p class="gh-list-excerpt">${description}</p>` : '' }
          <a class="gh-list-readmore"
            title="Lire la suite de la fiche : $(titre)"
            href="#${url}">Lire la fiche</a>
        </div>
-     </article>`
-
-  const htmlNoMetas = ({url, title}) =>
-    `<article class="gh-list-item gh-type-file">
-        <h2 class="gh-list-title"><a href="#${url}">${title}</a></h2>
      </article>`
 
   template.searchList = new Template('searchList')
@@ -33,24 +28,20 @@
         ghApiBlob.getMdBlob()
           .then(mdResponse => {
             const contribution = new Markdown(mdResponse)
-            if (contribution.isMetas()) {
-              const metas = {
+            const metas = contribution.isMetas() ?
+              {
                 prose_url: `http://prose.io/#${html_url.match(/^https:\/\/github.com\/(.*)/)[1]}`.replace('blob', 'edit'),
                 git_url: html_url,
                 url: `${repository.full_name}/blob/master/${path}`,
                 description: contribution.metas.description,
                 title: contribution.metas.title,
                 authors: contribution.metas.contributors,
-                image_url: contribution.metas.image_url || 'http://lorempixel.com/g/350/150/'
-              }
-              html.push(htmlWithMetas(metas))
-            } else {
-              const noMetas = {
+                image_url: contribution.metas.image_url
+              } : {
                 title: name,
                 url: `${repository.full_name}/blob/master/${path}`
               }
-              html.push(htmlNoMetas(noMetas))
-            }
+            html.push(htmlSearch(metas))
             template.searchList.html(html.join('\n'))
             template.searchList.renderAsync(template.searchList._htmlTpl)
           })

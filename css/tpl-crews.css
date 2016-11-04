@@ -28,3 +28,12 @@ display: table;
 #gh-crew-list p {
   padding-top: 30px;
 }
+
+@media (max-width:768px) {
+  #gh-crew-list li {
+    width: 100%;
+  }
+  #gh-crew-list li:not(:nth-child(3n+1)) {
+    margin-left: 0;
+  }
+}

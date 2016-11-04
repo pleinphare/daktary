@@ -73,3 +73,14 @@ header .search-engine input[type="submit"] {
   border: none;
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 0 20px;
+  }
+  img {
+    width: 100%;
+    height: auto;
+  }
+}

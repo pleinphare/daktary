@@ -14,6 +14,9 @@
   display: block;
   font-weight: normal;
 }
+.home-intro-content div {
+  display: inline-block;
+}
 .home-intro a {
   padding: 5px 10px;
   background-color: #29abe2;
@@ -22,4 +25,11 @@
 }
 .home-intro a + a {
   margin-left: 30px;
+}
+
+@media (max-width: 768px) {
+  .home-intro-content div {
+    display: block;
+    margin-bottom: 20px;
+  }
 }

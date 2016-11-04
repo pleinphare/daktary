@@ -2,9 +2,9 @@
   const html = ({link, label, content, prose_url, git_url}) => `
     <a name="top"></a>
     <aside class="contribution-tools">
-      <a href="${git_url}" data-tootik="Voir sur Github" class="github-link"></a>
-      <a href="${prose_url}" data-tootik="Editer sur prose.io" class="proseio-link"></a>
-      <a href="#multibao/documentation/blob/master/README.md" data-tootik="Aide" class="help-link"></a>
+      <a href="${git_url}" title="Voir sur Github" class="github-link tooltip"></a>
+      <a href="${prose_url}" title="Editer sur prose.io" class="proseio-link tooltip"></a>
+      <a href="#multibao/documentation/blob/master/README.md" title="Aide" class="help-link tooltip"></a>
       <a href="#top" class="page-top">Haut de page</a>
     </aside>
     <div id="parentRepo" class="breadcrumbs">

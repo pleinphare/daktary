@@ -1,47 +1,44 @@
 {
-  const htmlContribWithMetas = ({url, title, authors, git_url, prose_url, image_url, description}) =>
+  const htmlContrib = ({url, title, authors, git_url, prose_url, image_url, description}) =>
     `<article class="gh-list-item gh-type-file">
+       ${
+         image_url ? `<img src="${image_url}">` : ''
+       }
        <h2 class="gh-list-title"><a href="#${url}">${title}</a></h2>
        <div class="gh-list-content">
          <div class="gh-list-meta">
-           <p>Mise à jour par : ${authors}</p>
+           ${
+             authors ? `<p>Mise à jour par : ${authors}</p>` : ''
+           }
          </div>
-         <img src="${image_url}">
-         <p class="gh-list-excerpt">${description}</p>
-         <a class="gh-list-readmore"
-           title="Lire la suite de la fiche : ${title}"
-           href="#${url}">Lire la fiche</a>
+         ${ description ? `<p class="gh-list-excerpt">${description}</p>` : '' }
+            ${ (title && url) ?
+            `<a class="gh-list-readmore"
+                title="Lire la suite de la fiche : ${title}"
+                href="#${url}">Lire la suite de la fiche</a>` : ''
+            }
        </div>
      </article>`
 
-  const htmlContribNoMetas = ({url, title}) =>
-    `<article class="gh-list-item gh-type-file">
-        <h2 class="gh-list-title"><a href="#${url}">${title}</a></h2>
-     </article>`
-
-  const htmlFolderWithMetas = ({url, title, folders, files, contributors, git_url, image_url, description}) =>
+  const htmlFolder = ({url, readme_url, title, folders, files, contributors, git_url, image_url, description}) =>
     `<article class="gh-list-item gh-type-folder">
+          ${ image_url ? `<img src="${image_url}">` : '' }
           <h2 class="gh-list-title"><a href="#${url}">${title}</a></h2>
           <div class="gh-list-content">
             <div class="gh-list-meta">
-              <p>Dossiers : ${folders} - Fiches : ${files}</p>
-              <p>Contributeurs : ${contributors}</p>
+              ${ (folders && files) ? `<p>Dossiers : ${folders} - Fiches : ${files}</p>` : '' }
+              ${ contributors ? `<p>Contributeurs : ${contributors}</p>` : '' }
               </p>
-              <p>
-                <a href="${git_url}">Voir sur Github</a>
-              </p>
+              <p><a href="${git_url}">Voir sur Github</a></p>
             </div>
-            <img src="${image_url}">
-            <p class="gh-list-excerpt">${description}</p>
-            <a class="gh-list-readmore"
+            ${ description ? `<p class="gh-list-excerpt">${description}</p>` : '' }
+            ${ (title && readme_url) ?
+            `<a class="gh-list-readmore"
                 title="Lire la suite de la fiche : ${title}"
-                href="#${url}">Lire la présentation complète</a>
+                href="#${readme_url}">Lire la présentation complète</a>` : ''
+            }
           </div>
         </article>`
-  const htmlFolderNoMetas = ({url, title}) =>
-    `<article class="gh-list-item gh-type-folder">
-      <h2 class="gh-list-title"><a href="#${url}">${title}</a></h2>
-    </article>`
 
   template.folders = new Template('folders')
   template.folders.data = () => {
@@ -56,24 +53,21 @@
             ghApiBlob.getMdBlob()
               .then(mdResponse => {
                 const contribution = new Markdown(mdResponse)
-                if (contribution.isMetas()) {
-                  const metas = {
+                const metas = contribution.isMetas() ?
+                  {
                     prose_url: `http://prose.io/#${html_url.match(/^https:\/\/github.com\/(.*)/)[1]}`.replace('blob', 'edit'),
                     git_url: html_url,
+                    title: contribution.metas.title || name,
                     url: `${html_url.match(/^https:\/\/github.com\/(.*)/)[1]}`,
                     description: contribution.metas.description,
-                    title: contribution.metas.title || name,
                     authors: contribution.metas.authors,
-                    image_url: contribution.metas.image_url || 'http://lorempixel.com/g/350/150/'
-                  }
-                  html.push(htmlContribWithMetas(metas))
-                } else {
-                  const noMetas = {
+                    image_url: contribution.metas.image_url
+                  } : {
                     title: name,
                     url: `${html_url.match(/^https:\/\/github.com\/(.*)/)[1]}`,
+                    git_url: html_url
                   }
-                  html.push(htmlContribNoMetas(noMetas))
-                }
+                html.push(htmlContrib(metas))
                 template.folders.html(html.join('\n'))
                 template.folders.renderAsync(template.folders._htmlTpl)
               })
@@ -82,26 +76,23 @@
             const ghApiBlob = new GithubUrl(readmeUrl)
             ghApiBlob.getMdBlob()
               .then(mdResponse => {
-                const contribution = new Markdown(mdResponse)
-                if (contribution.isMetas()) {
-                  const metas = {
+                const folder = new Markdown(mdResponse)
+                const metas = folder.isMetas() ?
+                  {
                     url: `${html_url.match(/^https:\/\/github.com\/(.*)/)[1]}`,
-                    title: contribution.metas.title || name,
+                    title: folder.metas.title || name,
                     git_url: html_url,
-                    folders: 12,
-                    files: 5,
-                    contributors: contribution.metas.contributors,
-                    description: 'Lorem ipsum',
-                    image_url: '' || 'http://lorempixel.com/g/350/150/'
-                  }
-                  html.push(htmlFolderWithMetas(metas))
-                } else {
-                  const noMetas = {
+                    folders: folder.metas.folders,
+                    files: folder.metas.files,
+                    contributors: folder.metas.contributors,
+                    description: folder.metas.description,
+                    image_url: folder.metas.image_url
+                  } : {
                     title: name,
+                    git_url: html_url,
                     url: `${html_url.match(/^https:\/\/github.com\/(.*)/)[1]}`
                   }
-                  html.push(htmlFolderNoMetas(noMetas))
-                }
+                html.push(htmlFolder(metas))
                 template.folders.html(html.join('\n'))
                 template.folders.renderAsync(template.folders._htmlTpl)
               })
