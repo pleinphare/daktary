@@ -12,10 +12,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
    */
 var GithubUrl = function () {
   function GithubUrl(_ref) {
-    var owner = _ref.owner;
-    var repo = _ref.repo;
-    var branch = _ref.branch;
-    var path = _ref.path;
+    var owner = _ref.owner,
+        repo = _ref.repo,
+        branch = _ref.branch,
+        path = _ref.path;
 
     _classCallCheck(this, GithubUrl);
 
@@ -65,12 +65,12 @@ var GithubUrl = function () {
   }, {
     key: 'toGithubApiUrl',
     value: function toGithubApiUrl() {
-      var _githubData = this.githubData;
-      var keys = _githubData.keys;
-      var owner = _githubData.owner;
-      var repo = _githubData.repo;
-      var branch = _githubData.branch;
-      var path = _githubData.path;
+      var _githubData = this.githubData,
+          keys = _githubData.keys,
+          owner = _githubData.owner,
+          repo = _githubData.repo,
+          branch = _githubData.branch,
+          path = _githubData.path;
 
       var branchParam = !!branch ? 'ref=' + branch + '&' : '';
       return 'https://api.github.com' + ('/repos/' + owner + '/' + repo + '/contents' + path) + ('?' + branchParam + 'client_id=' + keys.id + '&client_secret=' + keys.secret);
@@ -78,31 +78,31 @@ var GithubUrl = function () {
   }, {
     key: 'toGithubRepoApiUrl',
     value: function toGithubRepoApiUrl() {
-      var _githubData2 = this.githubData;
-      var keys = _githubData2.keys;
-      var owner = _githubData2.owner;
+      var _githubData2 = this.githubData,
+          keys = _githubData2.keys,
+          owner = _githubData2.owner;
 
       return 'https://api.github.com/users/' + owner + '/repos' + ('?client_id=' + keys.id + '&client_secret=' + keys.secret);
     }
   }, {
     key: 'getGithubApiEditUrl',
     value: function getGithubApiEditUrl() {
-      var _githubData3 = this.githubData;
-      var owner = _githubData3.owner;
-      var repo = _githubData3.repo;
-      var branch = _githubData3.branch;
-      var path = _githubData3.path;
+      var _githubData3 = this.githubData,
+          owner = _githubData3.owner,
+          repo = _githubData3.repo,
+          branch = _githubData3.branch,
+          path = _githubData3.path;
 
       return 'https://github.com/' + owner + '/' + repo + '/edit/' + branch + path;
     }
   }, {
     key: 'getGithubApiUrl',
     value: function getGithubApiUrl() {
-      var _githubData4 = this.githubData;
-      var owner = _githubData4.owner;
-      var repo = _githubData4.repo;
-      var branch = _githubData4.branch;
-      var path = _githubData4.path;
+      var _githubData4 = this.githubData,
+          owner = _githubData4.owner,
+          repo = _githubData4.repo,
+          branch = _githubData4.branch,
+          path = _githubData4.path;
 
       return 'https://github.com/' + owner + '/' + repo + '/blob/' + branch + path;
     }
@@ -269,31 +269,25 @@ var Markdown = function () {
       var labelList = '';
       this.content.match(/---([\s\S]*?)---/)[1].split('\n').map(function (elt) {
         if (!!elt.match(/^\w+:$/)) {
-          var _elt$match = elt.match(/^(\w+):$/);
-
-          var _elt$match2 = _slicedToArray(_elt$match, 2);
-
-          var label = _elt$match2[1];
+          var _elt$match = elt.match(/^(\w+):$/),
+              _elt$match2 = _slicedToArray(_elt$match, 2),
+              label = _elt$match2[1];
 
           _this.metas[label] = [];
           labelList = label;
         }
         if (elt.match(/^  - [\s\S]*?$/)) {
-          var _elt$match3 = elt.match(/^  - ([\s\S]*?)$/);
-
-          var _elt$match4 = _slicedToArray(_elt$match3, 2);
-
-          var content = _elt$match4[1];
+          var _elt$match3 = elt.match(/^  - ([\s\S]*?)$/),
+              _elt$match4 = _slicedToArray(_elt$match3, 2),
+              content = _elt$match4[1];
 
           _this.metas[labelList].push(content);
         }
         if (elt.match(/^\w+: [\s\S]*?$/)) {
-          var _elt$match5 = elt.match(/^(\w+): ([\s\S]*?)$/);
-
-          var _elt$match6 = _slicedToArray(_elt$match5, 3);
-
-          var _label = _elt$match6[1];
-          var _content = _elt$match6[2];
+          var _elt$match5 = elt.match(/^(\w+): ([\s\S]*?)$/),
+              _elt$match6 = _slicedToArray(_elt$match5, 3),
+              _label = _elt$match6[1],
+              _content = _elt$match6[2];
 
           _this.metas[_label] = _content.trim();
         }
@@ -501,12 +495,10 @@ var Template = function () {
       var _this = this;
 
       var _loop = function _loop(event) {
-        var _event$split = event.split(' ');
-
-        var _event$split2 = _slicedToArray(_event$split, 2);
-
-        var evtType = _event$split2[0];
-        var evtSelector = _event$split2[1];
+        var _event$split = event.split(' '),
+            _event$split2 = _slicedToArray(_event$split, 2),
+            evtType = _event$split2[0],
+            evtSelector = _event$split2[1];
 
         var func = _this._events[event];
         clone.querySelector(evtSelector).addEventListener(evtType, function (evt) {
@@ -583,14 +575,14 @@ window.addEventListener('load', function () {
   document.querySelector('#button-gh-search').addEventListener('click', function (evt) {
     if (document.querySelector('#gh-search').value.length > 2) {
       var userQuery = document.querySelector('#gh-search').value;
-      var apiUrl = new GithubUrl(router.params).toGhApiSearch(userQuery);
+      var apiUrl = new GithubUrl(router.params).toGithubApiSearch(userQuery);
       router.go(apiUrl.replace('https://api.github.com/', ''));
     }
   });
   document.querySelector('#gh-search').addEventListener('keypress', function (evt) {
     if (evt.key === 'Enter' && evt.target.value.length > 2) {
       var userQuery = evt.target.value;
-      var apiUrl = new GithubUrl(router.params).toGhApiSearch(userQuery);
+      var apiUrl = new GithubUrl(router.params).toGithubApiSearch(userQuery);
       router.go(apiUrl.replace('https://api.github.com/', ''));
     }
   });
@@ -688,11 +680,11 @@ router.route(':owner', function () {
 {
   template.breadcrumb = new Template('breadcrumb');
   template.breadcrumb.data = function () {
-    var _router$params = router.params;
-    var owner = _router$params.owner;
-    var repo = _router$params.repo;
-    var branch = _router$params.branch;
-    var path = _router$params.path;
+    var _router$params = router.params,
+        owner = _router$params.owner,
+        repo = _router$params.repo,
+        branch = _router$params.branch,
+        path = _router$params.path;
 
     var folders = [];
     if (path) {
@@ -717,10 +709,10 @@ router.route(':owner', function () {
         link: '#' + owner + '/' + repo + '/tree/' + branch
       },
       foldersTpl: folders
-    };
-    var ownerTpl = _ownerTpl$repoTpl$fol.ownerTpl;
-    var repoTpl = _ownerTpl$repoTpl$fol.repoTpl;
-    var foldersTpl = _ownerTpl$repoTpl$fol.foldersTpl;
+    },
+        ownerTpl = _ownerTpl$repoTpl$fol.ownerTpl,
+        repoTpl = _ownerTpl$repoTpl$fol.repoTpl,
+        foldersTpl = _ownerTpl$repoTpl$fol.foldersTpl;
 
 
     template.breadcrumb.html('<ul>\n        <li><a href="#">Accueil</a></li>\n        <li><a href="' + ownerTpl.link + '">' + ownerTpl.label + '</a></li>\n        ' + (repoTpl.label ? '<li><a href="' + repoTpl.link + '">' + repoTpl.label + '</a></li>' : '') + foldersTpl.map(function (folder) {
@@ -733,22 +725,22 @@ router.route(':owner', function () {
 {
   (function () {
     var html = function html(_ref) {
-      var link = _ref.link;
-      var label = _ref.label;
-      var content = _ref.content;
-      var edit_url = _ref.edit_url;
-      var github_url = _ref.github_url;
+      var link = _ref.link,
+          label = _ref.label,
+          content = _ref.content,
+          edit_url = _ref.edit_url,
+          github_url = _ref.github_url;
       return '\n    <a name="top"></a>\n    <aside class="contribution-tools">\n      <a href="' + github_url + '" title="Voir sur Github" class="github-link tooltip"></a>\n      <a href="#multibao/documentation/blob/master/README.md" title="Aide" class="help-link tooltip"></a>\n      <a href="#top" class="page-top">Haut de page</a>\n    </aside>\n    <div id="parentRepo" class="breadcrumbs">\n      À retrouver dans le dépôt : <a href="' + link + '">' + label + '</a>\n    </div>\n    <article id="contribution">\n      ' + content + '\n    </article>\n  ';
     };
     template.contribution = new Template('contribution');
     template.contribution.data = function () {
       var githubApi = new GithubUrl(router.params);
       githubApi.getHtmlBlob().then(function (htmlResponse) {
-        var _router$params = router.params;
-        var owner = _router$params.owner;
-        var repo = _router$params.repo;
-        var branch = _router$params.branch;
-        var path = _router$params.path;
+        var _router$params = router.params,
+            owner = _router$params.owner,
+            repo = _router$params.repo,
+            branch = _router$params.branch,
+            path = _router$params.path;
 
         var data = {
           github_url: githubApi.getGithubApiUrl(),
@@ -768,23 +760,23 @@ router.route(':owner', function () {
 {
   (function () {
     var html = function html(_ref) {
-      var link = _ref.link;
-      var label = _ref.label;
-      var content = _ref.content;
-      var edit_url = _ref.edit_url;
-      var github_url = _ref.github_url;
-      var row = _ref.row;
+      var link = _ref.link,
+          label = _ref.label,
+          content = _ref.content,
+          edit_url = _ref.edit_url,
+          github_url = _ref.github_url,
+          row = _ref.row;
       return '\n    <a name="top"></a>\n    <aside class="contribution-tools">\n      <a href="' + github_url + '" title="Voir sur Github" class="github-link tooltip"></a>\n      <a href="' + edit_url + '" title="Editer sur github" class="edit-link tooltip"></a>\n      <a href="#multibao/documentation/blob/master/README.md" title="Aide" class="help-link tooltip"></a>\n      <a href="#top" class="page-top">Haut de page</a>\n    </aside>\n    <div id="parentRepo" class="breadcrumbs">\n      À retrouver dans le dépôt : <a href="' + link + '">' + label + '</a>\n    </div>\n    <article id="contribution">\n        <label for="commit-message">Description de la modification</label>\n        <input id="commit-message" placeholder="Modification" name="message" autocomplete="off" type="text">\n        <textarea id="commit-description" name="description" placeholder="Ajout d\'une description additionnelle"></textarea>\n        <button type="submit" id="submit-file">Enregistrer sur Github</button>\n        <textarea rows="' + row + '" cols="72">' + content + '</textarea>\n    </article>\n  ';
     };
     template.editor = new Template('editor');
     template.editor.data = function () {
       var githubApi = new GithubUrl(router.params);
       githubApi.getMdBlob().then(function (htmlResponse) {
-        var _router$params = router.params;
-        var owner = _router$params.owner;
-        var repo = _router$params.repo;
-        var branch = _router$params.branch;
-        var path = _router$params.path;
+        var _router$params = router.params,
+            owner = _router$params.owner,
+            repo = _router$params.repo,
+            branch = _router$params.branch,
+            path = _router$params.path;
 
         var data = {
           github_url: githubApi.getGithubApiUrl(),
@@ -811,10 +803,10 @@ router.route(':owner', function () {
 {
   (function () {
     var htmlWithMetas = function htmlWithMetas(_ref) {
-      var title = _ref.title;
-      var label = _ref.label;
-      var owner = _ref.owner;
-      var classAttr = _ref.classAttr;
+      var title = _ref.title,
+          label = _ref.label,
+          owner = _ref.owner,
+          classAttr = _ref.classAttr;
       return '<li><a title="' + title + '" href="#' + owner + '" data-owner="' + owner + '">\n       <h3>' + label + '</h3><p>' + title + '</p></a>\n     </li>';
     };
 
@@ -852,25 +844,25 @@ router.route(':owner', function () {
 {
   (function () {
     var htmlContrib = function htmlContrib(_ref) {
-      var url = _ref.url;
-      var title = _ref.title;
-      var authors = _ref.authors;
-      var github_url = _ref.github_url;
-      var image_url = _ref.image_url;
-      var description = _ref.description;
+      var url = _ref.url,
+          title = _ref.title,
+          authors = _ref.authors,
+          github_url = _ref.github_url,
+          image_url = _ref.image_url,
+          description = _ref.description;
       return '<article class="gh-list-item gh-type-file">\n       ' + (image_url ? '<img src="' + image_url + '">' : '') + '\n       <h2 class="gh-list-title"><a href="#' + url + '">' + title + '</a></h2>\n       <div class="gh-list-content">\n         <div class="gh-list-meta">\n           ' + (authors ? '<p>Mise à jour par : ' + authors + '</p>' : '') + '\n         </div>\n         ' + (description ? '<p class="gh-list-excerpt">' + description + '</p>' : '') + '\n            ' + (title && url ? '<a class="gh-list-readmore"\n                title="Lire la suite de la fiche : ' + title + '"\n                href="#' + url + '">Lire la suite de la fiche</a>' : '') + '\n       </div>\n     </article>';
     };
 
     var htmlFolder = function htmlFolder(_ref2) {
-      var url = _ref2.url;
-      var readme_url = _ref2.readme_url;
-      var title = _ref2.title;
-      var folders = _ref2.folders;
-      var files = _ref2.files;
-      var contributors = _ref2.contributors;
-      var github_url = _ref2.github_url;
-      var image_url = _ref2.image_url;
-      var description = _ref2.description;
+      var url = _ref2.url,
+          readme_url = _ref2.readme_url,
+          title = _ref2.title,
+          folders = _ref2.folders,
+          files = _ref2.files,
+          contributors = _ref2.contributors,
+          github_url = _ref2.github_url,
+          image_url = _ref2.image_url,
+          description = _ref2.description;
       return '<article class="gh-list-item gh-type-folder">\n          ' + (image_url ? '<img src="' + image_url + '">' : '') + '\n          <h2 class="gh-list-title"><a href="#' + url + '">' + title + '</a></h2>\n          <div class="gh-list-content">\n            <div class="gh-list-meta">\n              ' + (folders && files ? '<p>Dossiers : ' + folders + ' - Fiches : ' + files + '</p>' : '') + '\n              ' + (contributors ? '<p>Contributeurs : ' + contributors + '</p>' : '') + '\n              </p>\n              <p><a href="' + github_url + '">Voir sur Github</a></p>\n            </div>\n            ' + (description ? '<p class="gh-list-excerpt">' + description + '</p>' : '') + '\n            ' + (title && readme_url ? '<a class="gh-list-readmore"\n                title="Lire la suite de la fiche : ' + title + '"\n                href="#' + readme_url + '">Lire la présentation complète</a>' : '') + '\n          </div>\n        </article>';
     };
 
@@ -880,9 +872,9 @@ router.route(':owner', function () {
       var html = [];
       githubApi.getJsonFolders().then(function (jsonResponse) {
         jsonResponse.map(function (_ref3) {
-          var name = _ref3.name;
-          var type = _ref3.type;
-          var html_url = _ref3.html_url;
+          var name = _ref3.name,
+              type = _ref3.type,
+              html_url = _ref3.html_url;
 
           if (type === 'file') {
             var readmeUrl = { owner: router.params.owner, repo: router.params.repo, branch: 'master', path: '' + (router.params.path ? router.params.path + '/' + name : name) };
@@ -940,15 +932,15 @@ router.route(':owner', function () {
 {
   (function () {
     var htmlRepositories = function htmlRepositories(_ref) {
-      var url = _ref.url;
-      var title = _ref.title;
-      var folders = _ref.folders;
-      var files = _ref.files;
-      var contributors = _ref.contributors;
-      var github_url = _ref.github_url;
-      var image_url = _ref.image_url;
-      var description = _ref.description;
-      var readme_url = _ref.readme_url;
+      var url = _ref.url,
+          title = _ref.title,
+          folders = _ref.folders,
+          files = _ref.files,
+          contributors = _ref.contributors,
+          github_url = _ref.github_url,
+          image_url = _ref.image_url,
+          description = _ref.description,
+          readme_url = _ref.readme_url;
       return '<article class="gh-list-item gh-type-repo">\n      ' + (image_url ? '<img src="' + image_url + '">' : '') + '\n      <h2 class="gh-list-title"><a href="#' + url + '">' + title + '</a></h2>\n      <div class="gh-list-content">\n        <div class="gh-list-meta">\n          ' + (folders && files ? '<p>Dossiers : ' + folders + ' - Fiches : ' + files + '</p>' : '') + '\n          ' + (contributors ? '<p>Contributeurs : ' + contributors + '</p>' : '') + '\n          </p>\n          <p>\n          <a href="' + github_url + '">Voir sur Github</a>\n          </p>\n        </div>\n        ' + (description ? '<p class="gh-list-excerpt">' + description + '</p>' : '') + '\n        ' + (readme_url ? '<a class="gh-list-readmore"\n            title="Lire la suite de la fiche Titre de la fiche"\n            href="#' + readme_url + '">Lire la présentation complète</a>' : '') + '\n      </div>\n    </article>';
     };
 
@@ -958,10 +950,10 @@ router.route(':owner', function () {
       var html = [];
       githubApi.getJsonRepo().then(function (jsonResponse) {
         jsonResponse.map(function (_ref2) {
-          var name = _ref2.name;
-          var type = _ref2.type;
-          var html_url = _ref2.html_url;
-          var url = _ref2.url;
+          var name = _ref2.name,
+              type = _ref2.type,
+              html_url = _ref2.html_url,
+              url = _ref2.url;
 
           var readmeUrl = { owner: router.params.owner, repo: name, branch: 'master', path: 'README.md' };
           var githubApiBlob = new GithubUrl(readmeUrl);
@@ -998,33 +990,31 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 {
   (function () {
     var htmlSearch = function htmlSearch(_ref) {
-      var url = _ref.url;
-      var title = _ref.title;
-      var authors = _ref.authors;
-      var image_url = _ref.image_url;
-      var description = _ref.description;
+      var url = _ref.url,
+          title = _ref.title,
+          authors = _ref.authors,
+          image_url = _ref.image_url,
+          description = _ref.description;
       return '<article class="gh-list-item gh-type-file">\n       <h2 class="gh-list-title"><a href="#' + url + '">' + title + '</a></h2>\n       <div class="gh-list-content">\n         <div class="gh-list-meta">\n           ' + (authors ? '<p>Créé par : ' + authors + '</p>' : '') + '\n         </div>\n         ' + (image_url ? '<img src="' + image_url + '">' : '') + '\n         ' + (description ? ' <p class="gh-list-excerpt">' + description + '</p>' : '') + '\n         <a class="gh-list-readmore"\n           title="Lire la suite de la fiche : $(titre)"\n           href="#' + url + '">Lire la fiche</a>\n       </div>\n     </article>';
     };
 
     template.searchList = new Template('searchList');
     template.searchList.data = function () {
-      var _router$queries$q$mat = router.queries.q.match(/(.*)\+language:Markdown\+user:([0-9A-Za-z\u00C0-\u017F\-\_\.]*)/);
-
-      var _router$queries$q$mat2 = _slicedToArray(_router$queries$q$mat, 3);
-
-      var req = _router$queries$q$mat2[0];
-      var query = _router$queries$q$mat2[1];
-      var user = _router$queries$q$mat2[2];
+      var _router$queries$q$mat = router.queries.q.match(/(.*)\+language:Markdown\+user:([0-9A-Za-z\u00C0-\u017F\-\_\.]*)/),
+          _router$queries$q$mat2 = _slicedToArray(_router$queries$q$mat, 3),
+          req = _router$queries$q$mat2[0],
+          query = _router$queries$q$mat2[1],
+          user = _router$queries$q$mat2[2];
 
       router.params.owner = user;
       var githubApi = new GithubUrl(router.params);
       var html = [];
       githubApi.getJsonSearch(query).then(function (jsonResponse) {
         jsonResponse.items.map(function (_ref2) {
-          var name = _ref2.name;
-          var path = _ref2.path;
-          var html_url = _ref2.html_url;
-          var repository = _ref2.repository;
+          var name = _ref2.name,
+              path = _ref2.path,
+              html_url = _ref2.html_url,
+              repository = _ref2.repository;
 
           var readmeUrl = { owner: router.params.owner, repo: repository.name, branch: 'master', path: path };
           var githubApiBlob = new GithubUrl(readmeUrl);
