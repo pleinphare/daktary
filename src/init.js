@@ -30,14 +30,14 @@ window.addEventListener('load', () => {
     .addEventListener('click', (evt) => {
       if (document.querySelector('#gh-search').value.length > 2) {
         const userQuery = document.querySelector('#gh-search').value
-        const apiUrl = new GithubUrl(router.params).toGhApiSearch(userQuery)
+        const apiUrl = new GithubUrl(router.params).toGithubApiSearch(userQuery)
         router.go(apiUrl.replace('https://api.github.com/', ''))
       }
     })
   document.querySelector('#gh-search').addEventListener('keypress', (evt) => {
     if (evt.key === 'Enter' && evt.target.value.length > 2) {
       const userQuery = evt.target.value
-      const apiUrl = new GithubUrl(router.params).toGhApiSearch(userQuery)
+      const apiUrl = new GithubUrl(router.params).toGithubApiSearch(userQuery)
       router.go(apiUrl.replace('https://api.github.com/', ''))
     }
   })
