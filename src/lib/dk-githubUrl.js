@@ -74,7 +74,9 @@ class GithubUrl {
             }
           })
           .then(htmlResponse => {
-            resolve(marked(htmlResponse))
+            const withoutMeta = (md) =>
+              md.replace(/^---\n(.*\n)*---/, '')
+            resolve(marked(withoutMeta(htmlResponse)))
           })
           .catch(error => {
             throw error

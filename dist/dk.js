@@ -119,7 +119,10 @@ var GithubUrl = function () {
             router.go404();
           }
         }).then(function (htmlResponse) {
-          resolve(marked(htmlResponse));
+          var withoutMeta = function withoutMeta(md) {
+            return md.replace(/^---\n(.*\n)*---/, '');
+          };
+          resolve(marked(withoutMeta(htmlResponse)));
         }).catch(function (error) {
           throw error;
         });
